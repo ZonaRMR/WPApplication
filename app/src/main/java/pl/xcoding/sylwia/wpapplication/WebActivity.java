@@ -16,9 +16,10 @@ public class WebActivity extends AppCompatActivity {
           setContentView(R.layout.web_layout);
         WebView myWebView = (WebView) findViewById(R.id.webview);
         Bundle bundleMore = getIntent().getExtras();
-        String string = bundleMore.getString("bundle");
-myWebView.loadUrl(string);
-//      myWebView.loadUrl(data.get(position).getLink());
+        String string = bundleMore.getString("data");
+//        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.loadUrl(string);
+
 
     }
 }

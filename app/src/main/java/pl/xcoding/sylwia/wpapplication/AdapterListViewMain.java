@@ -64,11 +64,10 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
                     @Override
                     public void onClick(View v) {
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("data", data.get(position).getLink());
+
 
                         Intent intent = new Intent(v.getContext(), WebActivity.class);
-                       intent.putExtra("bundle",bundle);
+                       intent.putExtra("data", data.get(position).getLink());
                         v.getContext().startActivity(intent);
 
                     }
