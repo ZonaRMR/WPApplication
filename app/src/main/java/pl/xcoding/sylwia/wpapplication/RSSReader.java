@@ -16,6 +16,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -46,6 +48,9 @@ public class RSSReader {
             String myTag = null;
             event = myparser.getEventType();
             boolean processingItem = false;
+            String regularExpression = "src=\"(.*)\" width";
+            Pattern pattern = Pattern.compile(regularExpression);
+
             while (event != XmlPullParser.END_DOCUMENT) {
                 String name = myparser.getName();
                 switch (event) {
@@ -68,7 +73,7 @@ public class RSSReader {
 
                     case XmlPullParser.TEXT:
                         text = myparser.getText();
-                        if (processingItem && StringUtils.isNotBlank(text)) {
+                        if (StringUtils.isNotBlank(myTag) && processingItem && StringUtils.isNotBlank(text)) {
                             System.out.println("<" + myTag + ">" + text + "</" + myTag + ">");
                             if (myTag.equals("title")) {
                                 rssItem.setTitle(text);
@@ -76,6 +81,11 @@ public class RSSReader {
                                 rssItem.setLink(text);
                             } else if (myTag.equals("description")) {
                                 rssItem.setDescription(text);
+                                Matcher matcher = pattern.matcher(text);
+                                if (matcher.find()) {
+                                    rssItem.setImage(matcher.group(1));
+                                }
+
                             } else {
                             }
                         }

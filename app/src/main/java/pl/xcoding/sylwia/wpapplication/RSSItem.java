@@ -10,6 +10,7 @@ public class RSSItem implements Parcelable {
     private String title;
     private String link;
     private String description;
+    private String image;
 
     public RSSItem() {
     }
@@ -20,6 +21,7 @@ public class RSSItem implements Parcelable {
         title = data.getString("title");
         link = data.getString("link");
         description = data.getString("description");
+        image = data.getString("image");
 
     }
 
@@ -35,6 +37,7 @@ public class RSSItem implements Parcelable {
         data.putString("title", title);
         data.putString("link", link);
         data.putString("description", description);
+        data.putString("image", image);
 
         dest.writeBundle(data);
     }
@@ -71,5 +74,13 @@ public class RSSItem implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

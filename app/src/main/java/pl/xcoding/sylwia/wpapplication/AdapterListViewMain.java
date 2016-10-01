@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import java.util.ArrayList;
 
 public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMain.ViewHolder> {
@@ -29,7 +31,9 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
     @Override
     public void onBindViewHolder(AdapterListViewMain.ViewHolder holder, int position) {
         holder.textView.setText(data.get(position).getTitle());
-        holder.imageView.setImageResource(R.drawable.image);
+
+        holder.listview_image.setImageURI(data.get(position).getImage());
+
     }
 
 
@@ -44,13 +48,14 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
-        private ImageView imageView;
+        private SimpleDraweeView listview_image;
+
 
         public ViewHolder(View v) {
             super(v);
 
             textView = (TextView) v.findViewById(R.id.listview_item_title);
-            imageView = (ImageView) v.findViewById(R.id.listview_image);
+            listview_image = (SimpleDraweeView) v.findViewById(R.id.listview_image);
         }
     }
 

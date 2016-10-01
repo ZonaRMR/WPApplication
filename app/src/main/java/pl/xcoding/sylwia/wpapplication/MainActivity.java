@@ -8,6 +8,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +23,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_main);
 
+
+
         data = new ArrayList<RSSItem>();
+
+
 
 
         adapterListViewMain = new AdapterListViewMain(this, data);
@@ -36,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(adapterListViewMain);
 
         new RSSDownloader() {
-
-
             @Override
             protected void onPostExecute(ArrayList<RSSItem> result) {
 
                 data.addAll(result);
+
+
                 adapterListViewMain.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this,
                         "Pobrano " + result.size() + " wiadomości",
