@@ -15,6 +15,7 @@ public class RSSParser extends DefaultHandler{
     public RSSParser() {
         rssItems = new ArrayList<RSSItem>();
     }
+
     @Override
     public void characters(char[] ch, int start, int length) {
         stringBuilder.append(ch, start, length);

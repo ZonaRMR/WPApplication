@@ -1,31 +1,40 @@
 package pl.xcoding.sylwia.wpapplication;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AdapterListViewMain extends BaseAdapter{
+public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMain.ViewHolder> {
     private ArrayList<RSSItem> data;
     private Context listContext;
-    private LayoutInflater layoutInflater;
 
     public AdapterListViewMain(Context context, ArrayList<RSSItem> data) {
         this.listContext = context;
         this.data = data;
-        layoutInflater = LayoutInflater.from(listContext);
     }
-    private class CustomHolder {
-        TextView tvTitle;
-        ImageView ivImage;
-    }
+
+
     @Override
-    public int getCount() {
+    public AdapterListViewMain.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_activity, parent, false);
+        return new AdapterListViewMain.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(AdapterListViewMain.ViewHolder holder, int position) {
+        holder.textView.setText(data.get(position).getTitle());
+        holder.imageView.setImageResource(R.drawable.image);
+    }
+
+
+    @Override
+    public int getItemCount() {
         if (data != null) {
             return data.size();
         } else {
@@ -33,45 +42,17 @@ public class AdapterListViewMain extends BaseAdapter{
         }
     }
 
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView textView;
+        private ImageView imageView;
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+        public ViewHolder(View v) {
+            super(v);
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        CustomHolder viewCache;
-        RSSItem actualItem = data.get(position);
-
-
-        if (convertView == null) {
-
-            convertView = layoutInflater.inflate(
-                    R.layout.listview_activity, null);
-
-            viewCache = new CustomHolder();
-
-
-            viewCache.tvTitle = (TextView) convertView
-                    .findViewById(R.id.listview_item_title);
-
-            viewCache.ivImage = (ImageView) convertView
-                    .findViewById(R.id.listview_image);
-
-            convertView.setTag(viewCache);
-        } else {
-            viewCache = (CustomHolder) convertView.getTag();
+            textView = (TextView) v.findViewById(R.id.listview_item_title);
+            imageView = (ImageView) v.findViewById(R.id.listview_image);
         }
-
-
-        viewCache.tvTitle.setText(actualItem.getTitle());
-
-        return convertView;
     }
-    }
+
+}
 
