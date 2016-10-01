@@ -89,7 +89,7 @@ public class RSSReader {
                                 matcher = patternDialog.matcher(text);
                                 if (matcher.find()) {
                                     System.out.println("<" + myTag + ">" + matcher.group(1) + "</" + myTag + ">");
-                                    rssItem.setDescription(matcher.group(1).replaceAll("&#8226;|\\n",""));
+                                    rssItem.setDescription(matcher.group(1).replaceAll("&#8211;|\\n","").replaceAll("&#8226;\\s+",".").replaceAll("^\\.\\s*",""));
 
                                 }
                             } else {
