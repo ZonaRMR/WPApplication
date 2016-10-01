@@ -13,6 +13,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ArrayList<RSSItem> data;
+    private ListView listViewParser;
+    private AdapterListViewMain adapterListViewMain;
+
     String[] listviewTitle = new String[]{
             "ListView Title 1", "ListView Title 2", "ListView Title 3", "ListView Title 4",
             "ListView Title 5", "ListView Title 6"};
