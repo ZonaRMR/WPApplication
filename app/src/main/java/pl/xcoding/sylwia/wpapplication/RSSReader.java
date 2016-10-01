@@ -49,8 +49,9 @@ public class RSSReader {
             event = myparser.getEventType();
             boolean processingItem = false;
             String regularExpression = "src=\"(.*)\" width";
+            String regularExpressionDialog = "left\"/>((.|\\W)*)<a";
             Pattern pattern = Pattern.compile(regularExpression);
-
+            Pattern patternDialog = Pattern.compile(regularExpressionDialog);
             while (event != XmlPullParser.END_DOCUMENT) {
                 String name = myparser.getName();
                 switch (event) {
@@ -74,18 +75,23 @@ public class RSSReader {
                     case XmlPullParser.TEXT:
                         text = myparser.getText();
                         if (StringUtils.isNotBlank(myTag) && processingItem && StringUtils.isNotBlank(text)) {
-                            System.out.println("<" + myTag + ">" + text + "</" + myTag + ">");
+
                             if (myTag.equals("title")) {
                                 rssItem.setTitle(text);
                             } else if (myTag.equals("link")) {
                                 rssItem.setLink(text);
                             } else if (myTag.equals("description")) {
-                                rssItem.setDescription(text);
+
                                 Matcher matcher = pattern.matcher(text);
                                 if (matcher.find()) {
                                     rssItem.setImage(matcher.group(1));
                                 }
+                                matcher = patternDialog.matcher(text);
+                                if (matcher.find()) {
+                                    System.out.println("<" + myTag + ">" + matcher.group(1) + "</" + myTag + ">");
+                                    rssItem.setDescription(matcher.group(1).replaceAll("&#8226;|\\n",""));
 
+                                }
                             } else {
                             }
                         }
