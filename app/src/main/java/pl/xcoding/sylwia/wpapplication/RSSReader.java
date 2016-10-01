@@ -2,6 +2,7 @@ package pl.xcoding.sylwia.wpapplication;
 
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -37,66 +38,65 @@ public class RSSReader {
             myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             myparser.setInput(stream, null);
 
+            ArrayList<RSSItem> myItems = new ArrayList<>();
+            RSSItem rssItem = null;
+
             int event;
             String text = null;
-
+            String myTag = null;
             event = myparser.getEventType();
-            boolean parsingComplete = true;
+            boolean processingItem = false;
             while (event != XmlPullParser.END_DOCUMENT) {
                 String name = myparser.getName();
                 switch (event) {
                     case XmlPullParser.START_TAG:
+                        if (null != name && name.equals("item")) {
+                            processingItem = true;
+                            rssItem = new RSSItem();
+                        }
                         if (name.equals("title")) {
-                        System.out.println("<tytul>");
-                    } else if (name.equals("link")) {
-                        System.out.println("<link>");
-                    } else if (name.equals("description")) {
-                        System.out.println("<description>");
-                    } else {
-                            System.out.println(name);
-                    }
+                            myTag = "title";
+                        } else if (name.equals("link")) {
+                            myTag = "link";
+                        } else if (name.equals("description")) {
+                            myTag = "description";
+                        } else {
+                            myTag = "";
+                        }
+
                         break;
 
                     case XmlPullParser.TEXT:
                         text = myparser.getText();
-                        System.out.println(text);
+                        if (processingItem && StringUtils.isNotBlank(text)) {
+                            System.out.println("<" + myTag + ">" + text + "</" + myTag + ">");
+                            if (myTag.equals("title")) {
+                                rssItem.setTitle(text);
+                            } else if (myTag.equals("link")) {
+                                rssItem.setLink(text);
+                            } else if (myTag.equals("description")) {
+                                rssItem.setDescription(text);
+                            } else {
+                            }
+                        }
                         break;
 
                     case XmlPullParser.END_TAG:
-
-                        if (name.equals("title")) {
-                            System.out.println("</tytul>");
-                        } else if (name.equals("link")) {
-                            System.out.println("</link>");
-                        } else if (name.equals("description")) {
-                            System.out.println("</description>");
-                        } else {
+                        if (null != name && name.equals("item")) {
+                            processingItem = false;
+                            myItems.add(rssItem);
                         }
-
                         break;
                 }
 
                 event = myparser.next();
             }
 
-            parsingComplete = false;
-
 
             stream.close();
 
 
-//            SAXParserFactory factory = SAXParserFactory.newInstance();
-//            SAXParser parser = factory.newSAXParser();
-//            XMLReader reader = parser.getXMLReader();
-//            RSSParser rssParser = new RSSParser();
-//            InputSource inputSource = new InputSource(url.openStream());
-//
-//
-//            reader.setContentHandler(rssParser);
-//            reader.parse(inputSource);
-
-
-            return new ArrayList<>();
+            return myItems;
         } catch (Exception e) {
 
             e.printStackTrace();
