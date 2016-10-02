@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        fresco:placeholderImage="@mipmap/ic_launcher"/>
+        android:background="#fff"
+        fresco:placeholderImage="@drawable/wp"/>
 
     <TextView
         android:id="@+id/listview_item_title"

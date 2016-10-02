@@ -3,6 +3,7 @@ package pl.xcoding.sylwia.wpapplication;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
@@ -38,7 +42,14 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
     public void onBindViewHolder(AdapterListViewMain.ViewHolder holder, final int position) {
         holder.textView.setText(data.get(position).getTitle());
 
-        holder.listview_image.setImageURI(data.get(position).getImage());
+        if (StringUtils.isNotBlank(data.get(position).getImage()))
+//        {
+
+//            Uri uri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(R.drawable.wp)).build();
+//            holder.listview_image.setImageURI(uri);
+//        } else {
+            holder.listview_image.setImageURI(data.get(position).getImage());
+
 
         holder.listview_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +76,8 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
                     public void onClick(View v) {
 
 
-
                         Intent intent = new Intent(v.getContext(), WebActivity.class);
-                       intent.putExtra("data", data.get(position).getLink());
+                        intent.putExtra("data", data.get(position).getLink());
                         v.getContext().startActivity(intent);
 
                     }
