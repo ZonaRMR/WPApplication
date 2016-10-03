@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,22 +46,30 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
         holder.textView.setText(data.get(position).getTitle());
 
         if (StringUtils.isNotBlank(data.get(position).getImage()))
-//        {
-
-//            Uri uri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(R.drawable.wp)).build();
-//            holder.listview_image.setImageURI(uri);
-//        } else {
             holder.listview_image.setImageURI(data.get(position).getImage());
-
-
         holder.listview_image.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(v.getContext());
-                dialog.setTitle(data.get(position).getTitle());
+
+                final Dialog dialog = new Dialog(v.getContext(), R.style.FullHeightDialog);
+
+//              dialog.setTitle(data.get(position).getTitle());
+//                dialog.findViewById(R.id.text_title);
+
                 dialog.setContentView(R.layout.dialog_layout);
+
+                //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                TextView textTitle = (TextView) dialog.findViewById(R.id.text_title);
+                textTitle.setText(data.get(position).getTitle());
+
                 TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
                 text.setText(data.get(position).getDescription());
+
+
+
 
                 Button buttonCancel = (Button) dialog.findViewById(R.id.dialogButtonCancel);
 
@@ -70,6 +81,32 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
                 });
 
                 Button buttonReadMore = (Button) dialog.findViewById(R.id.dialogButtonReadMore);
+
+
+//
+//              final  AlertDialog dialog = new AlertDialog.Builder(v.getContext()).show();
+//                dialog.setContentView(R.layout.dialog_layout);
+//
+//
+//
+//                dialog.setTitle(data.get(position).getTitle());
+//
+//                TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+//               text.setText(data.get(position).getDescription());
+//
+////
+//                Button buttonCancel = (Button) dialog.findViewById(R.id.dialogButtonCancel);
+//
+//                buttonCancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.cancel();
+//                    }
+//                });
+
+
+                //Button buttonReadMore = (Button) dialog.findViewById(R.id.dialogButtonReadMore);
+
 
                 buttonReadMore.setOnClickListener(new View.OnClickListener() {
                     @Override
