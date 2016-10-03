@@ -45,8 +45,12 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
     public void onBindViewHolder(AdapterListViewMain.ViewHolder holder, final int position) {
         holder.textView.setText(data.get(position).getTitle());
 
-        if (StringUtils.isNotBlank(data.get(position).getImage()))
+        if (StringUtils.isBlank(data.get(position).getImage())) {
+            Uri uri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(R.drawable.wp)).build();
+            holder.listview_image.setImageURI(uri);
+        } else {
             holder.listview_image.setImageURI(data.get(position).getImage());
+        }
         holder.listview_image.setOnClickListener(new View.OnClickListener() {
 
 
