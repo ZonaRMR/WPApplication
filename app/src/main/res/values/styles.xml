@@ -9,6 +9,8 @@
     </style>
     <style name="FullHeightDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:background">#3f51b5</item>
         </style>
     
     <style name="ButtonHolo" parent="android:Theme.Holo.Light">

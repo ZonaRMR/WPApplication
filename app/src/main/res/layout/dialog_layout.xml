@@ -1,67 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:adjustViewBounds="true"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="#fff"
- >
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/text_title"
+        style="@style/Theme.Holo.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#3f51b5"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#3f51b5"
+        android:background="#fff"
         android:textStyle="bold"
         android:typeface="sans"
-        style="@style/Theme.Holo.Light"
 
         />
+
     <TextView
         android:id="@+id/text_dialog"
+        style="@style/Theme.Holo.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        style="@style/Theme.Holo.Light"
-        />
+        android:background="#fff"
+        android:textColor="#000" />
 
-    <RelativeLayout
+    <LinearLayout
+
+        style="@style/Theme.Holo.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dip"
-        style="@style/Theme.Holo.Light"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
         >
-    <Button
-        android:id="@+id/dialogButtonReadMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" Czytaj więcej "
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:textColor="#3f51b5"
-        android:layout_weight="1"
-        style="?android:attr/borderlessButtonStyle"        />
-    <Button
-        android:id="@+id/dialogButtonCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#3f51b5"
-        android:text=" Zamknij "
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        style="@style/ButtonHolo"
-        />
-    </RelativeLayout>
+
+        <Button
+            android:id="@+id/dialogButtonReadMore"
+            style="@style/ButtonHolo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text=" Czytaj więcej "
+            android:background="#fff"
+            android:textColor="#3f51b5" />
+
+        <Button
+            android:id="@+id/dialogButtonCancel"
+            style="@style/ButtonHolo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text=" Zamknij "
+            android:background="#fff"
+            android:textColor="#3f51b5" />
+    </LinearLayout>
 </LinearLayout>
