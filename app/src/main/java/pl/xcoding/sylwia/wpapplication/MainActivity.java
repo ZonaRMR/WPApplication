@@ -2,6 +2,7 @@ package pl.xcoding.sylwia.wpapplication;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,12 +19,15 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Handler;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private ArrayList<RSSItem> data;
     private RecyclerView mRecyclerView;
     private AdapterListViewMain adapterListViewMain;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,24 @@ public class MainActivity extends AppCompatActivity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                myRefresh();
+            }
+        });
 
+//
+//if (swipeRefreshLayout.isRefreshing()){
+//    swipeRefreshLayout.setRefreshing(false);
+//}
+//        else{
+//    swipeRefreshLayout.setRefreshing(true);
+//
+//}
         data = new ArrayList<RSSItem>();
 
 
@@ -111,6 +132,41 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return 270;
         }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        myRefresh();
+    }
+
+    private void myRefresh(){
+        swipeRefreshLayout.setRefreshing(true);
+
+
+
+       data.clear();
+
+        new RSSDownloader() {
+            @Override
+            protected void onPostExecute(ArrayList<RSSItem> result) {
+
+                data.addAll(result);
+
+
+                adapterListViewMain.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this,
+                        "Pobrano " + result.size() + " wiadomości",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+
+        }.execute("http://wiadomosci.wp.pl/kat,1329,ver,rss,rss.xml?ticaid=117d3d&_ticrsn=3");
+
+
+
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 }

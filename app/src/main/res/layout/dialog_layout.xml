@@ -20,6 +20,7 @@
         android:textStyle="bold"
         android:typeface="sans"
 
+
         />
 
     <TextView
@@ -31,7 +32,10 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:background="#fff"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:scrollbars = "vertical"
+        android:maxLines ="7"
+        />
 
     <LinearLayout
 
@@ -41,7 +45,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="#fff"
-        >
+                >
 
         <Button
             android:id="@+id/dialogButtonReadMore"

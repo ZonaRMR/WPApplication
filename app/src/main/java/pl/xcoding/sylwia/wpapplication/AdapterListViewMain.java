@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
                 TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
                 text.setText(data.get(position).getDescription());
 
-
+text.setMovementMethod(new ScrollingMovementMethod());
 
 
                 Button buttonCancel = (Button) dialog.findViewById(R.id.dialogButtonCancel);

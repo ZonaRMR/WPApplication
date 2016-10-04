@@ -94,12 +94,12 @@ public class RSSReader {
                                 matcher2=patternDialog2.matcher(text);
                                 if (matcher1.find()) {
                                     System.out.println("<" + myTag + ">" + matcher1.group(1) + "</" + myTag + ">");
-                                    rssItem.setDescription(matcher1.group(1).replaceAll("&#8211;|\\n","").replaceAll("&#8226;\\s+",".").replaceAll("^\\.\\s*",""));
+                                    rssItem.setDescription(matcher1.group(1).replaceAll("&#8211;|\\n","").replaceAll("\\s*&#8226;\\s+",". ").replaceAll("^\\.\\s*","").replaceAll("^\\-\\s",""));
 
                                 }
                                 else if (matcher2.find()) {
                                     System.out.println("<" + myTag + ">" + matcher2.group(1) + "</" + myTag + ">");
-                                    rssItem.setDescription(matcher2.group(1).replaceAll("&#8211;|\\n","").replaceAll("&#8226;\\s+",".").replaceAll("^\\.\\s*",""));
+                                    rssItem.setDescription(matcher2.group(1).replaceAll("&#8211;|\\n","").replaceAll("\\s*&#8226;\\s+",". ").replaceAll("^\\.\\s*","").replaceAll("^\\-\\s",""));
 
                                 }
                             } else {
