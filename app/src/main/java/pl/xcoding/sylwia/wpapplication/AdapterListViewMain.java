@@ -3,6 +3,8 @@ package pl.xcoding.sylwia.wpapplication;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -63,6 +65,7 @@ public class AdapterListViewMain extends RecyclerView.Adapter<AdapterListViewMai
 //                dialog.findViewById(R.id.text_title);
 
                 dialog.setContentView(R.layout.dialog_layout);
+
 
                 //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 

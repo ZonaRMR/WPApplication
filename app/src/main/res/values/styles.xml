@@ -9,10 +9,18 @@
     </style>
     <style name="FullHeightDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
-    </style>
+        </style>
     
-    <style name="Title">
-        <item name="android:textStyle">bold</item>
+    <style name="ButtonHolo" parent="android:Theme.Holo.Light">
+        <item name="android:windowFrame">@color/colorPrimary</item>
+        <item name="android:typeface">sans</item>
     </style>
+
+    <style name="Theme.Holo.Light" parent="android:Theme.Holo.Light">
+        <item name="android:typeface">sans</item>
+
+
+    </style>
+
 
 </resources>
