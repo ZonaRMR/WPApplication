@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout.setOnRefreshListener(this);
 
         if (swipeRefreshLayout.isRefreshing()) {
-
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -48,28 +47,36 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView = (RecyclerView) findViewById(R.id.list_view);
         mRecyclerView.setHasFixedSize(true);
 
-        if (isTablet(this)) {
-
-            if (getRotation(this) == 90 || getRotation(this) == 270) {
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-            } else {
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-            }
-        } else {
-            if (getRotation(this) == 0 || getRotation(this) == 180) {
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 1);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-            } else {
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-
-            }
-        }
+        checkRotationAndSetGrid();
 
         mRecyclerView.setAdapter(adapterListViewMain);
 
+        createRSSDownloader();
+
+    }
+
+    private void checkRotationAndSetGrid() {
+        if (isTablet(this)) {
+            if (getRotation(this) == 90 || getRotation(this) == 270) {
+                setGrid(2);
+            } else {
+                setGrid(3);
+            }
+        } else {
+            if (getRotation(this) == 0 || getRotation(this) == 180) {
+                setGrid(1);
+            } else {
+                setGrid(2);
+            }
+        }
+    }
+
+    private void setGrid(int number) {
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), number);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    private void createRSSDownloader() {
         new RSSDownloader() {
             @Override
             protected void onPostExecute(ArrayList<RSSItem> result) {
@@ -80,18 +87,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         Toast.LENGTH_SHORT).show();
             }
         }.execute("http://wiadomosci.wp.pl/kat,1329,ver,rss,rss.xml?ticaid=117d3d&_ticrsn=3");
-
     }
 
 
     public static boolean isTablet(Context context) {
-        if ((context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            System.out.println("Tablet--------------------------------------------------------");
+        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
             return true;
         } else {
-            System.out.println("Telefon---------------------------------------------------------------");
             return false;
         }
     }
@@ -119,16 +121,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void myRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         data.clear();
-        new RSSDownloader() {
-            @Override
-            protected void onPostExecute(ArrayList<RSSItem> result) {
-                data.addAll(result);
-                adapterListViewMain.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this,
-                        "Pobrano " + result.size() + " wiadomości",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }.execute("http://wiadomosci.wp.pl/kat,1329,ver,rss,rss.xml?ticaid=117d3d&_ticrsn=3");
+        createRSSDownloader();
         swipeRefreshLayout.setRefreshing(false);
     }
 
