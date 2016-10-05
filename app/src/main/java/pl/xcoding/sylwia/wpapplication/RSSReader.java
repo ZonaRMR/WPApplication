@@ -27,23 +27,8 @@ public class RSSReader {
             XmlPullParser myparser = xmlFactoryObject.newPullParser();
             myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             myparser.setInput(stream, null);
-            ArrayList<RSSItem> myItems = new ArrayList<>();
-            RSSItem rssItem = null;
-            int event;
-            String myTag = null;
-            event = myparser.getEventType();
-            boolean processingItem = false;
-            String regularExpression = "src=\"(.*)\" width";
-            String regularExpressionDialog = "left\"/>((.|\\W)*)<a";
-            String regularExpressionDialog2 = "^((.|\\W)*)<a";
-            Pattern pattern = Pattern.compile(regularExpression);
-            Pattern patternDialog = Pattern.compile(regularExpressionDialog);
-            Pattern patternDialog2 = Pattern.compile(regularExpressionDialog2);
-
-            readEvent(myparser, myItems, rssItem, event, myTag, processingItem, pattern, patternDialog, patternDialog2);
-
+            ArrayList<RSSItem> myItems = readEvent(myparser);
             stream.close();
-
             return myItems;
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,8 +37,19 @@ public class RSSReader {
 
     }
 
-    private static void readEvent(XmlPullParser myparser, ArrayList<RSSItem> myItems, RSSItem rssItem, int event, String myTag, boolean processingItem, Pattern pattern, Pattern patternDialog, Pattern patternDialog2) throws XmlPullParserException, IOException {
-        String text;
+    private static ArrayList<RSSItem> readEvent(XmlPullParser myparser) throws XmlPullParserException, IOException {
+        String myTag = null;
+        RSSItem rssItem = null;
+        boolean processingItem = false;
+        int event = myparser.getEventType();
+        ArrayList<RSSItem> myItems = new ArrayList<>();
+        String regularExpression = "src=\"(.*)\" width";
+        String regularExpressionDialog = "left\"/>((.|\\W)*)<a";
+        String regularExpressionDialog2 = "^((.|\\W)*)<a";
+        Pattern pattern = Pattern.compile(regularExpression);
+        Pattern patternDialog = Pattern.compile(regularExpressionDialog);
+        Pattern patternDialog2 = Pattern.compile(regularExpressionDialog2);
+
         while (event != XmlPullParser.END_DOCUMENT) {
             String name = myparser.getName();
             switch (event) {
@@ -67,7 +63,7 @@ public class RSSReader {
                     break;
 
                 case XmlPullParser.TEXT:
-                    text = myparser.getText();
+                    String text = myparser.getText();
                     if (StringUtils.isNotBlank(myTag) && processingItem && StringUtils.isNotBlank(text)) {
                         checkTag(rssItem, text, myTag, pattern, patternDialog, patternDialog2);
                     }
@@ -83,6 +79,7 @@ public class RSSReader {
 
             event = myparser.next();
         }
+        return myItems;
     }
 
     private static void checkTag(RSSItem rssItem, String text, String myTag, Pattern pattern, Pattern patternDialog, Pattern patternDialog2) {
