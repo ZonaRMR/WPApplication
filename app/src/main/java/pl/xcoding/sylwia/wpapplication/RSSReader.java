@@ -1,26 +1,17 @@
 package pl.xcoding.sylwia.wpapplication;
 
-
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 public class RSSReader {
 
@@ -28,15 +19,15 @@ public class RSSReader {
 
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
             InputStream stream = conn.getInputStream();
+
             XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
             XmlPullParser myparser = xmlFactoryObject.newPullParser();
-
             myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             myparser.setInput(stream, null);
 
@@ -46,7 +37,9 @@ public class RSSReader {
             int event;
             String text = null;
             String myTag = null;
+
             event = myparser.getEventType();
+
             boolean processingItem = false;
             String regularExpression = "src=\"(.*)\" width";
             String regularExpressionDialog = "left\"/>((.|\\W)*)<a";
@@ -54,6 +47,7 @@ public class RSSReader {
             Pattern pattern = Pattern.compile(regularExpression);
             Pattern patternDialog = Pattern.compile(regularExpressionDialog);
             Pattern patternDialog2 = Pattern.compile(regularExpressionDialog2);
+
             while (event != XmlPullParser.END_DOCUMENT) {
                 String name = myparser.getName();
                 switch (event) {
@@ -83,23 +77,22 @@ public class RSSReader {
                             } else if (myTag.equals("link")) {
                                 rssItem.setLink(text);
                             } else if (myTag.equals("description")) {
-
                                 Matcher matcher = pattern.matcher(text);
                                 if (matcher.find()) {
                                     rssItem.setImage(matcher.group(1));
                                 }
 
                                 Matcher matcher1 = patternDialog.matcher(text);
-                                Matcher matcher2 =patternDialog2.matcher(text);
-                                matcher2=patternDialog2.matcher(text);
+                                Matcher matcher2 = patternDialog2.matcher(text);
+                                matcher2 = patternDialog2.matcher(text);
+
                                 if (matcher1.find()) {
                                     System.out.println("<" + myTag + ">" + matcher1.group(1) + "</" + myTag + ">");
-                                    rssItem.setDescription(matcher1.group(1).replaceAll("&#8211;|\\n","").replaceAll("\\s*&#8226;\\s+",". ").replaceAll("^\\.\\s*","").replaceAll("^\\-\\s",""));
+                                    rssItem.setDescription(matcher1.group(1).replaceAll("&#8211;|\\n", "").replaceAll("\\s*&#8226;\\s+", ". ").replaceAll("^\\.\\s*", "").replaceAll("^\\-\\s", ""));
 
-                                }
-                                else if (matcher2.find()) {
+                                } else if (matcher2.find()) {
                                     System.out.println("<" + myTag + ">" + matcher2.group(1) + "</" + myTag + ">");
-                                    rssItem.setDescription(matcher2.group(1).replaceAll("&#8211;|\\n","").replaceAll("\\s*&#8226;\\s+",". ").replaceAll("^\\.\\s*","").replaceAll("^\\-\\s",""));
+                                    rssItem.setDescription(matcher2.group(1).replaceAll("&#8211;|\\n", "").replaceAll("\\s*&#8226;\\s+", ". ").replaceAll("^\\.\\s*", "").replaceAll("^\\-\\s", ""));
 
                                 }
                             } else {
@@ -122,10 +115,8 @@ public class RSSReader {
 
             stream.close();
 
-
             return myItems;
         } catch (Exception e) {
-
             e.printStackTrace();
             throw new SAXException();
         }

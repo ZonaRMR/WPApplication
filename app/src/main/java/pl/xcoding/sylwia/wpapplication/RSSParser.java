@@ -1,13 +1,12 @@
 package pl.xcoding.sylwia.wpapplication;
 
-
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class RSSParser extends DefaultHandler{
+public class RSSParser extends DefaultHandler {
     private ArrayList<RSSItem> rssItems;
     private RSSItem parsingItem;
     private StringBuilder stringBuilder;
@@ -21,33 +20,24 @@ public class RSSParser extends DefaultHandler{
         stringBuilder.append(ch, start, length);
     }
 
-
     @Override
     public void endElement(String uri, String localName, String qName) {
 
         if (parsingItem != null) {
             try {
-
                 if (qName.equals("content:encoded")) {
                     qName = "content";
                 }
-
-
-                String functionName = "set"
-                        + qName.substring(0, 1).toUpperCase()
-                        + qName.substring(1);
-
-                Method function = RSSItem.class.getMethod(functionName,
-                        String.class);
-
+                String functionName = "set" + qName.substring(0, 1).toUpperCase() + qName.substring(1);
+                Method function = RSSItem.class.getMethod(functionName, String.class);
                 function.invoke(parsingItem, stringBuilder.toString());
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         }
 
     }
+
     @Override
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) {
@@ -61,7 +51,7 @@ public class RSSParser extends DefaultHandler{
 
     }
 
-    public ArrayList<RSSItem> getResult(){
+    public ArrayList<RSSItem> getResult() {
         return rssItems;
     }
 }

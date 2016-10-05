@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/android_list_view"
@@ -33,6 +32,7 @@
 
         <TextView
             android:id="@+id/listview_item_title"
+            style="@style/Theme.Holo.Light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,7 +40,6 @@
             android:padding="5dp"
             android:text="Android Example"
             android:textColor="#000"
-            android:textStyle="bold"
-            style="@style/Theme.Holo.Light"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

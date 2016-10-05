@@ -2,10 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="#fff"
     android:orientation="vertical">
-
 
     <TextView
         android:id="@+id/text_title"
@@ -15,13 +13,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="#3f51b5"
         android:background="#fff"
-        android:textStyle="bold"
-        android:typeface="sans"
-
-
-        />
+        android:textColor="#3f51b5"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_dialog"
@@ -32,20 +26,17 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:background="#fff"
-        android:textColor="#000"
-        android:scrollbars = "vertical"
-        android:maxLines ="7"
-        />
+        android:maxLines="7"
+        android:scrollbars="vertical"
+        android:textColor="#000" />
 
     <LinearLayout
-
         style="@style/Theme.Holo.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="#fff"
-                >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/dialogButtonReadMore"
@@ -55,8 +46,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text=" Czytaj więcej "
             android:background="#fff"
+            android:text=" Czytaj więcej "
             android:textColor="#3f51b5" />
 
         <Button
@@ -67,8 +58,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text=" Zamknij "
             android:background="#fff"
+            android:text=" Zamknij "
             android:textColor="#3f51b5" />
     </LinearLayout>
 </LinearLayout>
