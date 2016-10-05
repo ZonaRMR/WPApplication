@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
     defaultConfig {
@@ -20,7 +24,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -29,5 +33,6 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.13.0'
     compile 'com.android.support:design:24.2.1'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
     testCompile 'junit:junit:4.12'
 }

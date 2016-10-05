@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -80,6 +82,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         new RSSDownloader() {
             @Override
             protected void onPostExecute(ArrayList<RSSItem> result) {
+
+                if(CollectionUtils.isEmpty(result)){
+                    Toast.makeText(MainActivity.this,
+                            "Brak połączenia z Internetem",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                data.clear();
+
                 data.addAll(result);
                 adapterListViewMain.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this,
@@ -120,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void myRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        data.clear();
+
         createRSSDownloader();
         swipeRefreshLayout.setRefreshing(false);
     }

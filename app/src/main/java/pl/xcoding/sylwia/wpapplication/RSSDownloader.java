@@ -1,6 +1,7 @@
 package pl.xcoding.sylwia.wpapplication;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.net.URL;
 import java.util.ArrayList;
